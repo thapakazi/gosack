@@ -20,7 +20,7 @@ type FoodMenu struct {
 // 	Snack []string
 // }
 
-func main() {
+func ReadCsv() (tsvData [][]string) {
 	// read the tsv file
 	tsvFile, err := os.Open(os.Getenv("CSV_DATA_INPUT"))
 	if err != nil {
@@ -33,14 +33,16 @@ func main() {
 	// reader.Comma = '\t'         // our data src is in tsv :D
 	reader.FieldsPerRecord = -1 //assuming records might have variable number of fields, so no check made
 
-	tsvData, err := reader.ReadAll()
+	tsvData, err = reader.ReadAll()
 	if err != nil {
 		fmt.Print(err)
 		log.Fatal(err)
 	}
+	return
+}
 
+func AppendToStructArray(tsvData [][]string) (foodAll []FoodMenu) {
 	var foodPerDay FoodMenu
-	var foodAll []FoodMenu
 
 	//S.N.	Date	Day	Lunch	Snack
 	for _, each := range tsvData {
@@ -50,7 +52,10 @@ func main() {
 
 		foodAll = append(foodAll, foodPerDay)
 	}
+	return
+}
 
+func Export2JsonFile(foodAll []FoodMenu) {
 	//convert to json
 	jsondata, err := json.Marshal(foodAll)
 	if err != nil {
@@ -68,4 +73,10 @@ func main() {
 
 	jsonFile.Write(jsondata)
 
+}
+
+func main() {
+	tsvData := ReadCsv()
+	foodAll := AppendToStructArray(tsvData)
+	Export2JsonFile(foodAll)
 }
