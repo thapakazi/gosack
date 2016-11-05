@@ -8,13 +8,13 @@ import (
 	"os"
 )
 
-type FoodMenu struct {
+type LunchAndSnack struct {
 	Date  string
 	Lunch string
 	Snack string
 }
 
-// type FoodMenu struct {
+// type LunchAndSnack struct {
 // 	Date  time.Time
 // 	Lunch []string
 // 	Snack []string
@@ -41,21 +41,21 @@ func ReadCsv() (tsvData [][]string) {
 	return
 }
 
-func AppendToStructArray(tsvData *[][]string) (foodAll []FoodMenu) {
-	var foodPerDay FoodMenu
+func AppendToStructArray(tsvData *[][]string) (foodAll []LunchAndSnack) {
+	var lns LunchAndSnack
 
 	//S.N.	Date	Day	Lunch	Snack
 	for _, each := range *tsvData {
-		foodPerDay.Date = each[1]
-		foodPerDay.Lunch = each[3]
-		foodPerDay.Snack = each[4]
+		lns.Date = each[1]
+		lns.Lunch = each[3]
+		lns.Snack = each[4]
 
-		foodAll = append(foodAll, foodPerDay)
+		foodAll = append(foodAll, lns)
 	}
 	return
 }
 
-func Export2JsonFile(foodAll *[]FoodMenu) {
+func Export2JsonFile(foodAll *[]LunchAndSnack) {
 	//convert to json
 	jsondata, err := json.Marshal(*foodAll)
 	if err != nil {
@@ -79,3 +79,8 @@ func Csv2Json() {
 	foodAll := AppendToStructArray(&tsvData)
 	Export2JsonFile(&foodAll)
 }
+
+// func (f *LunchAndSnack) GetFoodItem() {
+// 	foodAll := AppendToStructArray(&ReadCsv())
+
+// }
