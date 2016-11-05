@@ -41,11 +41,11 @@ func ReadCsv() (tsvData [][]string) {
 	return
 }
 
-func AppendToStructArray(tsvData [][]string) (foodAll []FoodMenu) {
+func AppendToStructArray(tsvData *[][]string) (foodAll []FoodMenu) {
 	var foodPerDay FoodMenu
 
 	//S.N.	Date	Day	Lunch	Snack
-	for _, each := range tsvData {
+	for _, each := range *tsvData {
 		foodPerDay.Date = each[1]
 		foodPerDay.Lunch = each[3]
 		foodPerDay.Snack = each[4]
@@ -55,9 +55,9 @@ func AppendToStructArray(tsvData [][]string) (foodAll []FoodMenu) {
 	return
 }
 
-func Export2JsonFile(foodAll []FoodMenu) {
+func Export2JsonFile(foodAll *[]FoodMenu) {
 	//convert to json
-	jsondata, err := json.Marshal(foodAll)
+	jsondata, err := json.Marshal(*foodAll)
 	if err != nil {
 		fmt.Println(err)
 		log.Fatal(err)
@@ -72,11 +72,10 @@ func Export2JsonFile(foodAll []FoodMenu) {
 	defer jsonFile.Close()
 
 	jsonFile.Write(jsondata)
-
 }
 
 func main() {
 	tsvData := ReadCsv()
-	foodAll := AppendToStructArray(tsvData)
-	Export2JsonFile(foodAll)
+	foodAll := AppendToStructArray(&tsvData)
+	Export2JsonFile(&foodAll)
 }
