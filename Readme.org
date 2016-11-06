@@ -1,0 +1,11 @@
+#+TITLE: Hamro aaja ko khaja k ho?
+#+DATE: Sunday, Nov 06 2016
+#+DESCRIPTION: too lazy to open the url to list
+
+*** includes:
+    - [X] sample data for nov
+    - [X] csv2json parser
+    - [X] dirty practises of programming 😖
+
+*** TODO maybe/extension:
+    - [ ] command line prortable webserver with light cache
