@@ -1,11 +1,10 @@
-#+TITLE: Hamro aaja ko khaja k ho?
+#+TITLE: random exp with golang
 #+DATE: Sunday, Nov 06 2016
-#+DESCRIPTION: too lazy to open the url to list
+#+DESCRIPTION: learning by doing stuffs
 
-*** includes:
-    - [X] sample data for nov
-    - [X] csv2json parser
-    - [X] dirty practises of programming 😖
+* includes:
+  |-------+---------------------------------------+--------|
+  | khaja | a simple googledocs-to-json khaja api | inprog |
+  |-------+---------------------------------------+--------|
+  
 
-*** TODO maybe/extension:
-    - [ ] command line prortable webserver with light cache
