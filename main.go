@@ -14,10 +14,7 @@ import (
 )
 
 type GithubContentResponse struct {
-	Content     string `json:"content"`
-	DownloadURL string `json:"download_url"`
-	Encoding    string `json:"encoding"`
-	Name        string `json:"name"`
+	Content string `json:"content"`
 }
 
 type QA struct {
@@ -28,7 +25,7 @@ type QA struct {
 func main() {
 
 	url := "https://api.github.com/repos/foss-np/np-l10n-glossary/contents/en2ne/fun.tra"
-	qa := &QA{Q: "ram", A: "hari"}
+	qa := &QA{Q: "बन्दुक एक्का", A: "Ganace"}
 	qa.Downloadfromurl(url)
 
 	b, err := json.Marshal(qa)
@@ -42,7 +39,15 @@ func main() {
 
 func (qa *QA) Downloadfromurl(url string) {
 
-	tmp_path := "/tmp/"
+	tmp_path := "tmp/"
+
+	err := os.MkdirAll(tmp_path, 0755)
+	if err != nil {
+		fmt.Println("Error creating directory")
+		fmt.Println(err)
+		return
+	}
+
 	tokens := strings.Split(url, "/")
 	fileName := tmp_path + tokens[len(tokens)-1]
 	fmt.Println("Downloading", url, "to", fileName)
@@ -81,13 +86,10 @@ func (qa *QA) Downloadfromurl(url string) {
 	json.Unmarshal(raw, &githubcontentresponse)
 	contentsInside := githubcontentresponse.Content
 
+	// decode the encoded string
 	sDec, _ := b64.StdEncoding.DecodeString(contentsInside)
 
 	words := strings.Split(string(sDec), "\n")
-	// fmt.Println(words[10])
-	// fmt.Println(words[11])
-	// fmt.Println(words[0])
-	// fmt.Println(len(words))
 
 	// sellout random
 	s1 := rand.NewSource(time.Now().UnixNano())
