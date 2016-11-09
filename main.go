@@ -34,11 +34,14 @@ type GithubContentResponse struct {
 func main() {
 
 	url := "https://api.github.com/repos/foss-np/np-l10n-glossary/contents/en2ne/fun.tra"
-	downloadFromUrl(url)
+	// downloadFromUrl(url)
+	qa := QA{}
+	qa.Downloadfromurl(url)
+	fmt.Printf("so question %s means %s", qa.q, qa.a)
 
 }
 
-func downloadFromUrl(url string) {
+func (qa *QA) Downloadfromurl(url string) {
 
 	tmp_path := "/tmp/"
 	tokens := strings.Split(url, "/")
@@ -90,7 +93,12 @@ func downloadFromUrl(url string) {
 	// sellout random
 	s1 := rand.NewSource(time.Now().UnixNano())
 	randomNum := rand.New(s1).Intn(len(words))
-	fmt.Println(words[randomNum])
+
+	// return random word
+	randWord := words[randomNum]
+	questionAnswers := strings.Split(randWord, ";")
+	qa.q = questionAnswers[0]
+	qa.a = questionAnswers[1]
 
 	// // loop over the array
 	// for _, word := range words {
