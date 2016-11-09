@@ -1,0 +1,31 @@
+#+TITLE: Tinkering with github
+#+DATE: Wednesday, Nov 09 2016
+#+DESCRIPTION: lets make bandukekka
+
+* Figuring out how to pull the file from github using api.
+
+  - Example they gave in readme
+    https://api.github.com/repos/octokit/octokit.rb/contents/README.md
+  - i can pull this raw way, but i wont 😁
+    https://raw.githubusercontent.com/foss-np/np-l10n-glossary/master/en2ne/fun.tra
+
+  - what I need to pull
+    https://api.github.com/repos/foss-np/np-l10n-glossary/contents/en2ne/fun.tra
+
+
+* codelogic
+
+** 
+
+** Read json
+   #+BEGIN_SRC go
+
+type Response struct {
+  Name string `json:string`
+  Content string `json:string`
+  Encoding string `json:string`
+  Extra   bson.M                 `bson:",inline" json:"extra"`
+}
+
+var res Response
+   #+END_SRC
