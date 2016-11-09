@@ -23,6 +23,11 @@ type QA struct {
 }
 
 func main() {
+	http.HandleFunc("/", notmain)
+	http.ListenAndServe(":5000", nil)
+}
+
+func notmain(w http.ResponseWriter, r *http.Request) {
 
 	url := "https://api.github.com/repos/foss-np/np-l10n-glossary/contents/en2ne/fun.tra"
 	qa := &QA{Q: "बन्दुक एक्का", A: "Ganace"}
@@ -33,7 +38,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(string(b))
+	fmt.Fprintf(w, string(b))
 
 }
 
