@@ -6,11 +6,17 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
+type QA struct {
+	q string `json:"q"`
+	a string `json:"a"`
+}
 type GithubContentResponse struct {
 	_links struct {
 		Git  string `json:"git"`
@@ -30,13 +36,7 @@ func main() {
 	url := "https://api.github.com/repos/foss-np/np-l10n-glossary/contents/en2ne/fun.tra"
 	downloadFromUrl(url)
 
-	// parse the json
-
 }
-
-// func (resp GithubContentResponse) getContent() {
-
-// }
 
 func downloadFromUrl(url string) {
 
@@ -80,6 +80,32 @@ func downloadFromUrl(url string) {
 	contentsInside := githubcontentresponse.Content
 
 	sDec, _ := b64.StdEncoding.DecodeString(contentsInside)
-	fmt.Println(string(sDec))
+
+	words := strings.Split(string(sDec), "\n")
+	// fmt.Println(words[10])
+	// fmt.Println(words[11])
+	// fmt.Println(words[0])
+	// fmt.Println(len(words))
+
+	// sellout random
+	s1 := rand.NewSource(time.Now().UnixNano())
+	randomNum := rand.New(s1).Intn(len(words))
+	fmt.Println(words[randomNum])
+
+	// // loop over the array
+	// for _, word := range words {
+	// 	questionAnswers := strings.Split(word, ";")
+	// 	question := questionAnswers[0]
+	// 	answer := questionAnswers[1]
+
+	// 	if question == "angry birds" {
+	// 		fmt.Println("answer", answer)
+	// 		q = question
+	// 		a = answer
+
+	// 		fmt.Println(qa)
+	// 		// return
+	// 	}
+	// }
 
 }
