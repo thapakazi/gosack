@@ -14,16 +14,9 @@ import (
 )
 
 type GithubContentResponse struct {
-	_links struct {
-		Git  string `json:"git"`
-		HTML string `json:"html"`
-		Self string `json:"self"`
-	} `json:"_links"`
 	Content     string `json:"content"`
 	DownloadURL string `json:"download_url"`
 	Encoding    string `json:"encoding"`
-	GitURL      string `json:"git_url"`
-	HTMLURL     string `json:"html_url"`
 	Name        string `json:"name"`
 }
 
