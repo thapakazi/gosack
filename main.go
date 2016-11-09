@@ -1,6 +1,7 @@
 package main
 
 import (
+	b64 "encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -76,8 +77,9 @@ func downloadFromUrl(url string) {
 	// decode and print
 	githubcontentresponse := GithubContentResponse{}
 	json.Unmarshal(raw, &githubcontentresponse)
-	// decoder := json.NewDecoder(response.Body)
-	// decoder.Decode(&githubcontentresponse)
+	contentsInside := githubcontentresponse.Content
 
-	fmt.Println(githubcontentresponse.Content)
+	sDec, _ := b64.StdEncoding.DecodeString(contentsInside)
+	fmt.Println(string(sDec))
+
 }
