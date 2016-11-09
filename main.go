@@ -2,7 +2,7 @@ package main
 
 import (
 	b64 "encoding/base64"
-	"encoding/json"
+	json "encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -13,10 +13,6 @@ import (
 	"time"
 )
 
-type QA struct {
-	q string `json:"q"`
-	a string `json:"a"`
-}
 type GithubContentResponse struct {
 	_links struct {
 		Git  string `json:"git"`
@@ -31,13 +27,23 @@ type GithubContentResponse struct {
 	Name        string `json:"name"`
 }
 
+type QA struct {
+	Q string `json:"q"`
+	A string `json:"a"`
+}
+
 func main() {
 
 	url := "https://api.github.com/repos/foss-np/np-l10n-glossary/contents/en2ne/fun.tra"
-	// downloadFromUrl(url)
-	qa := QA{}
+	qa := &QA{Q: "ram", A: "hari"}
 	qa.Downloadfromurl(url)
-	fmt.Printf("so question %s means %s", qa.q, qa.a)
+
+	b, err := json.Marshal(qa)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(b))
 
 }
 
@@ -97,8 +103,8 @@ func (qa *QA) Downloadfromurl(url string) {
 	// return random word
 	randWord := words[randomNum]
 	questionAnswers := strings.Split(randWord, ";")
-	qa.q = questionAnswers[0]
-	qa.a = questionAnswers[1]
+	qa.Q = questionAnswers[0]
+	qa.A = questionAnswers[1]
 
 	// // loop over the array
 	// for _, word := range words {
