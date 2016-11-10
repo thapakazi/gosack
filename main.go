@@ -22,6 +22,12 @@ type QA struct {
 	A string `json:"a"`
 }
 
+func ResponseWithJSON(w http.ResponseWriter, json []byte, code int) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(code)
+	w.Write(json)
+}
+
 func main() {
 	http.HandleFunc("/", notmain)
 	http.ListenAndServe(":5000", nil)
@@ -38,8 +44,7 @@ func notmain(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Fprintf(w, string(b))
-
+	ResponseWithJSON(w, b, http.StatusOK)
 }
 
 func (qa *QA) Downloadfromurl(url string) {
@@ -104,7 +109,7 @@ func (qa *QA) Downloadfromurl(url string) {
 	randWord := words[randomNum]
 	questionAnswers := strings.Split(randWord, ";")
 	qa.Q = questionAnswers[0]
-	qa.A = questionAnswers[1]
+	qa.A = strings.TrimSpace(questionAnswers[1])
 
 	// // loop over the array
 	// for _, word := range words {
