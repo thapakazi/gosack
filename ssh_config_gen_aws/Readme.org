@@ -1,0 +1,30 @@
+#+TITLE: easyssh with tags
+#+DATE: Thursday, Dec 22 2016
+#+DESCRIPTION: sick of static configs
+  
+* Assumptions
+  - aws configs{keys, regions} are exported well
+
+* Breakdown
+  - pull tags 
+    #+BEGIN_SRC bash :results drawer 
+    source /tmp/my-aws.keys
+    aws ec2 describe-instances
+    #+END_SRC
+
+
+  - pull tags with filters, little bit of assumptions don't hurt
+    #+BEGIN_SRC bash :results drawer
+    source /tmp/my-aws.keys
+VPC_ID="my_vpc_id"
+EC2_REGION="my_region-1"
+aws ec2 describe-instances \
+    --filters Name=vpc-id,Values=${VPC_ID} \
+    --query 'Reservations[].Instances[].[PrivateIpAddress,InstanceId,Tags[?Key==`Name`].Value[]]' \
+    --output text \
+    --region "${EC2_REGION}" \
+    | sed 's/None$/None\n/' | sed '$!N;s/\n/ /'
+    #+END_SRC
+  - parse the json
+  - write the config file
+  - build and share
