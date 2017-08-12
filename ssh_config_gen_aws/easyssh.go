@@ -76,7 +76,11 @@ func main() {
 			single_host := HostDefinition{UserName: username, PortNumber: port}
 			for _, tag := range inst.Tags {
 				if *tag.Key == "Name" {
-					single_host.Host = *tag.Value
+					value := *tag.Value
+					if value == "" {
+						value = "NameIsBlank_" + *inst.PrivateIpAddress
+					}
+					single_host.Host = value
 				}
 			}
 
